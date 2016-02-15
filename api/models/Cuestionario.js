@@ -9,20 +9,28 @@ module.exports = {
 
   attributes: {
 
-    observaciones : { type: 'string' },
+    nombre: { type: 'string', size: 50},
+
+    observaciones : { type: 'string', size: 255 },
 
     fechaFin : { type: 'date' },
 
-    preguntas : {
-    	collection : 'pregunta',
-    	via : 'cuestionarios'
+    //Relacion 1-N cuestionario-respuesta
+    respuestas: {
+      collection: 'respuesta',
+      via: 'cuestionario'
+    },
+    //Relacion N-M cuestionario-pregunta
+    preguntas:{
+      collection: 'pregunta',
+      via: 'cuestionarios'
     },
 
     alumnos : {
     	collection : 'alumno',
     	via : 'cuestionarios'
     },
-
+    
     duplicar: function (cb) {
 	    cuestionarioJSON = this.toJSON();
 	    delete cuestionarioJSON["id"];
