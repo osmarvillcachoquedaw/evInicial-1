@@ -34,16 +34,6 @@ module.exports = {
         via: 'preguntas'
     }
 
-    /*pregunta : {
-    	type: 'string',
-    	size: 255,
-    	required: true
-	},
-
-    respuesta : { type: 'string',
-    	size: 255,
-    	required: true
-    }*/
   }
 };
 

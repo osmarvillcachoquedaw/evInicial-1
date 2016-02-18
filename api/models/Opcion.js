@@ -11,15 +11,15 @@ module.exports = {
 
     tipoOpcion : { type: 'string' },
 
-    //Relacion 1-N pregunta-opcion
+    //Relaciones 1-N pregunta-opcion
     pregunta: {
     	model: 'pregunta'
     },
-    //Relacion 1-N opcion-subopcion
     subopciones: {
     	collection: 'subopcion',
     	via: 'opcion'
     }
+
   }
 };
 

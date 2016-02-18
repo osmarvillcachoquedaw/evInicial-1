@@ -1,5 +1,42 @@
 [
   {
+    "model":"subOpcion",
+    "items":[
+    {
+        "nombre": "fraction",
+        "valor": "100",
+        "id": 1
+    },
+    {
+        "nombre": "format",
+        "valor": "moodle_auto_format",
+        "id": 2
+    },
+    {
+        "nombre": "text",
+        "valor": "1",
+        "id": 3
+    }
+    ]
+  },
+  {
+    "model":"opcion",
+    "items":[
+    {
+        "tipoOpcion": "Answer",
+        "id": 1
+    },
+    {
+        "tipoOpcion": "Answer",
+        "id": 2
+    },
+    {
+        "tipoOpcion": "Answer",
+        "id": 3
+    }
+    ]
+  },
+  {
     "model":"pregunta",
     "items":[
     {
