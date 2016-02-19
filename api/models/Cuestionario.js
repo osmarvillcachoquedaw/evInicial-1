@@ -53,7 +53,14 @@ module.exports = {
 		    this.alumnos.add(alumno.id);
 		    this.save(console.log);
 	    }
-    }
+  },
+  asociarPregunta: function (grupo, cb) {
+
+      while (pregunta.opciones.length){
+        var opcion = pregunta.opciones.pop();
+        this.opciones.add(opcion.id);
+        this.save(console.log);
+      }
   },
 
   duplicar: function (cuestionario, cb) {
@@ -89,6 +96,7 @@ module.exports = {
     })
   });
 
-}
+  }
+  }
 };
 

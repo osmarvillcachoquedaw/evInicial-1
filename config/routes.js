@@ -61,10 +61,13 @@ module.exports.routes = {
     'CuestionarioController.asociarGrupo'
   ],
 
-  'GET r|^/pregunta/(\\d+)/opciones/(\\d+)/info$|preguntaId,opcionesId' : [//opcionesId = preguntaId
+  /*ruta para comprobar la respuesta enviada por el alumno*/
+  'POST r|^/cuestionario/(\\d+)/pregunta/(\\d+)/respuesta$|cuestionarioId,preguntaId' : [
+    'CuestionarioController.load',
     'PreguntaController.load',
-    'OpcionController.load'
-  ],
+    'PreguntaController.corregir'
+  ]
+
 
 
 };
