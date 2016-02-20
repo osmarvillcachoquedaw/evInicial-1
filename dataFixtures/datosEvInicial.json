@@ -8,14 +8,29 @@
         "id": 1
     },
     {
-        "nombre": "format",
-        "valor": "moodle_auto_format",
+        "nombre": "text",
+        "valor": "valor correcto",
         "id": 2
+    },
+        {
+        "nombre": "fraction",
+        "valor": "0",
+        "id": 3
     },
     {
         "nombre": "text",
-        "valor": "1",
-        "id": 3
+        "valor": "valor incorrecto",
+        "id": 4
+    },
+        {
+        "nombre": "fraction",
+        "valor": "0",
+        "id": 5
+    },
+    {
+        "nombre": "text",
+        "valor": "valor incorrecto",
+        "id": 6
     }
     ]
   },
@@ -23,16 +38,52 @@
     "model":"opcion",
     "items":[
     {
-        "tipoOpcion": "Answer",
-        "id": 1
+        "tipoOpcion": "Answer 1",
+        "id": 1,
+        "subopciones":[
+            {
+                "nombre": "fraction",
+                "valor": "100",
+                "id": 1
+            },
+            {
+                "nombre": "text",
+                "valor": "valor correcto",
+                "id": 2
+            }
+        ]
     },
     {
-        "tipoOpcion": "Answer",
-        "id": 2
+        "tipoOpcion": "Answer 2",
+        "id": 2,
+        "subopciones":[
+            {
+                "nombre": "fraction",
+                "valor": "0",
+                "id": 3
+            },
+            {
+                "nombre": "text",
+                "valor": "valor incorrecto",
+                "id": 4
+            }
+        ]
     },
     {
-        "tipoOpcion": "Answer",
-        "id": 3
+        "tipoOpcion": "Answer 3",
+        "id": 3,
+        "subopciones":[
+            {
+                "nombre": "fraction",
+                "valor": "0",
+                "id": 5
+            },
+            {
+                "nombre": "text",
+                "valor": "valor incorrecto",
+                "id": 6
+            }
+        ]
     }
     ]
   },
@@ -42,17 +93,69 @@
     {
         "enunciado": "2+2",
         "tipo": "Numerica",
-        "id": 1
+        "id": 1,
+        "opciones":[
+        {
+            "tipoOpcion": "Answer 1",
+            "id": 1,
+            "subopciones":[
+               {
+                    "nombre": "fraction",
+                    "valor": "100",
+                    "id": 1
+                },
+                {
+                    "nombre": "text",
+                    "valor": "valor correcto",
+                    "id": 2
+                }
+            ]
+        },
+        {
+            "tipoOpcion": "Answer 2",
+            "id": 2,
+            "subopciones":[
+               {
+                    "nombre": "fraction",
+                    "valor": "0",
+                    "id": 3
+                },
+                {
+                    "nombre": "text",
+                    "valor": "valor incorrecto",
+                    "id": 4
+                }
+            ]
+        },
+        {
+            "tipoOpcion": "Answer 3",
+            "id": 3,
+            "subopciones":[
+               {
+                    "nombre": "fraction",
+                    "valor": "0",
+                    "id": 5
+                },
+                {
+                    "nombre": "text",
+                    "valor": "valor incorrecto",
+                    "id": 6
+                }
+            ]
+        }
+        ]
     },
     {
         "enunciado": "3+3",
         "tipo": "Numerica",
-        "id": 2
+        "id": 2,
+        "opciones": []
     },
     {
         "enunciado": "4+4",
         "tipo": "Numerica",
-        "id": 3
+        "id": 3,
+        "opciones": []
     }
     ]
   },
@@ -62,14 +165,65 @@
       {
           "preguntas": [
               {
-                  "enunciado": "3+3",
-                  "tipo": "Numerico",
-                  "id": 2
+                  "enunciado": "2+2",
+                  "tipo": "Numerica",
+                  "id": 1,
+                  "opciones":[
+                  {
+                      "tipoOpcion": "Answer 1",
+                      "id": 1,
+                      "subopciones":[
+                         {
+                              "nombre": "fraction",
+                              "valor": "100",
+                              "id": 1
+                          },
+                          {
+                              "nombre": "text",
+                              "valor": "valor correcto",
+                              "id": 2
+                          }
+                      ]
+                  },
+                  {
+                      "tipoOpcion": "Answer 2",
+                      "id": 2,
+                      "subopciones":[
+                         {
+                              "nombre": "fraction",
+                              "valor": "0",
+                              "id": 3
+                          },
+                          {
+                              "nombre": "text",
+                              "valor": "valor incorrecto",
+                              "id": 4
+                          }
+                      ]                      
+                  },
+                  {
+                      "tipoOpcion": "Answer 3",
+                      "id": 3,
+                      "subopciones":[
+                         {
+                              "nombre": "fraction",
+                              "valor": "0",
+                              "id": 5
+                          },
+                          {
+                              "nombre": "text",
+                              "valor": "valor incorrecto",
+                              "id": 6
+                          }
+                      ]
+                  }
+                  ]
               },
               {
                   "enunciado": "4+4",
                   "tipo": "Numerica",
-                  "id": 3
+                  "id": 3,
+                  "opciones":[]
               }
           ],
           "alumnos": [],
