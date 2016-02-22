@@ -82,22 +82,15 @@ module.exports = {
 						//console.log("dos"+dos);
 						sails.log.verbose(valortext);
 					}
-									/*console.log("valor fraction"+valorfraction);
-				console.log("valor text"+valortext);*/
-									
+					
 				});
-
-				/*if(opcionSeleccionada.subopciones['fraction'] == '100'){
-					mostrarRespuesta = 'respuesta Correcta';
-				}else {
-					mostrarRespuesta = 'respuesta Incorrecta';
-				}
-				res.json(mostrarRespuesta);
-				*/
-
-				Respuesta.create({valor: valortext, puntuacion: valorfraction}).exec(function funcion(err, funcion){
+				Alumno.findOne({user: req.session.passport.user})
+				.then(function(alumnum){
+					Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumnum.id, cuestionario:req.params.cuestionarioId , pregunta: req.params.preguntaId}).exec(function funcion(err, funcion){
 					res.json(funcion);
-				});
+					});
+				})
+				
 				//res.json(mostrarRespuesta);
 				//console.log("opcionSeleccionada"+opcionSeleccionada);
 
