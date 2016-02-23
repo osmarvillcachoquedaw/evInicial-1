@@ -32,7 +32,100 @@ module.exports = {
     cuestionarios: {
         collection: 'cuestionario',
         via: 'preguntas'
-    }
+    },
+
+    /*Adaptando tipo preguntas y dependiendo el tipo de pregunta que sea, se asigna una funcion*/
+    tipoPregunta:function(respuesta, user, cuestionario, pregunta){
+        switch (this.tipo) {
+          case "Ensayo":
+                
+                break;
+          case "Numerica": 
+                this.comprobarNumerica(respuesta, function cb(){
+                    Alumno.findOne({user: req.session.passport.user})
+                    .then(function(alumnum){
+                        if(alumnum){
+                        Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumnum.id, cuestionario:req.params.cuestionarioId , pregunta: req.params.preguntaId}).exec(function funcion(err, funcion){
+                        res.json(funcion);
+                        });
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                })
+                break;
+          case "Emparejamiento":
+                statements // they are executed if variable ==  any of the above c's
+                break;
+          case "Verdadero/Falso":        
+                statements // they are executed if variable ==  any of the above c's
+                break;
+          case "Eleccion multiple":        
+                this.comprobarEleccionMultiple(respuesta, function cb(){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: "Correcto", puntuacion: 100, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
+                break;    
+          /*default:
+                statements // they are executed if none of the above case is satisfied
+                break;*/
+        }
+    },
+    /*funciones que se utilizaran en el SWITCH para cada tipo de pregunta*/
+    //para -.>ENSAYO
+
+    //para -.>NUMERICA
+    comprobarNumerica: function(respuesta, cb){
+        var idRespuesta = respuesta;//id de la opcion que envia el usuario 
+        var valortext;
+        var valorfraction;
+        Opcion.findOne({
+            where: { id: Number(idRespuesta)}
+          }).populate('subopciones').then(function(opcionSeleccionada){
+                opcionSeleccionada.subopciones.forEach(function(unasubopcion){
+                    if(unasubopcion.nombre == "fraction"){
+                        valorfraction = unasubopcion.valor;
+                        //console.log(""+uno);
+                        sails.log.verbose(valorfraction);
+                    }
+                    if(unasubopcion.nombre == "text"){
+                        valortext = unasubopcion.valor;
+                        //console.log("dos"+dos);
+                        sails.log.verbose(valortext);
+                    }                  
+                });
+                
+        }).catch(function(error){next(error);});
+    },
+    //para -.>EMPAREJAMIENTO
+    
+    //para -.>VERDADERO/FALSO
+    
+    //para -->ELECCION MULTIPLE
+    comprobarEleccionMultiple: function(respuesta, cb){
+        Subopcion.findOne({
+            where: {opcion: Number(respuesta), nombre: "fraccion"}
+        }).then(function(subopcion){
+            var puntuacion = subopcion.valor;
+            Subopcion.findOne({
+                where: {opcion: Number(respuesta), nombre: "text"}
+            }).then(function(subopcion){
+                var texto = subopcion.valor;
+                return cb(puntuacion, texto);
+            })  
+        })
+    },
+
 
   }
 };
