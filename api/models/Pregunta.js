@@ -35,18 +35,21 @@ module.exports = {
     },
 
     /*Adaptando tipo preguntas y dependiendo el tipo de pregunta que sea, se asigna una funcion*/
-    tipoPregunta:function(respuesta, user, cuestionario, pregunta){
-        switch (this.tipo) {
+    tipoPregunta:function(respuesta, user, cuestionario, tipoPregunta, cb){
+        switch (tipoPregunta.tipo) {
           case "Ensayo":
-                
+                console.log("Pregunta tipo: "+tipoPregunta.id);
                 break;
           case "Numerica": 
-                this.comprobarNumerica(respuesta, function cb(){
-                    Alumno.findOne({user: req.session.passport.user})
+                console.log("Pregunta tipo: "+tipoPregunta.id);
+                this.comprobarNumerica(respuesta, function (valortext, valorfraction, cb){
+                    Alumno.findOne({user: user})
                     .then(function(alumnum){
                         if(alumnum){
-                        Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumnum.id, cuestionario:req.params.cuestionarioId , pregunta: req.params.preguntaId}).exec(function funcion(err, funcion){
-                        res.json(funcion);
+                            console.log("alumnum"+alumnum);
+                        Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumnum.id, cuestionario:cuestionario , pregunta: tipoPregunta.id})
+                        .exec(function funcion(err, funcion){
+                        cb(funcion);
                         });
                         }else{
                             sails.log.verbose("No estas autenticado como usuario Alumno");
@@ -55,12 +58,15 @@ module.exports = {
                 })
                 break;
           case "Emparejamiento":
+                console.log("Pregunta tipo: "+tipoPregunta.id);
                 statements // they are executed if variable ==  any of the above c's
                 break;
-          case "Verdadero/Falso":        
+          case "Verdadero/Falso":  
+                console.log("Pregunta tipo: "+tipoPregunta.id);      
                 statements // they are executed if variable ==  any of the above c's
                 break;
-          case "Eleccion multiple":        
+          case "Eleccion multiple": 
+                console.log("Pregunta tipo: "+tipoPregunta.id);       
                 this.comprobarEleccionMultiple(respuesta, function cb(){
                     Alumno.findOne({
                         where: {user: user}
@@ -86,6 +92,7 @@ module.exports = {
 
     //para -.>NUMERICA
     comprobarNumerica: function(respuesta, cb){
+        console.log("Entrando a comprobarNumerica");
         var idRespuesta = respuesta;//id de la opcion que envia el usuario 
         var valortext;
         var valorfraction;
@@ -102,10 +109,11 @@ module.exports = {
                         valortext = unasubopcion.valor;
                         //console.log("dos"+dos);
                         sails.log.verbose(valortext);
-                    }                  
+                    }  
+                    cb(valorfraction, valortext);                
                 });
                 
-        }).catch(function(error){next(error);});
+        })
     },
     //para -.>EMPAREJAMIENTO
     
@@ -121,7 +129,7 @@ module.exports = {
                 where: {opcion: Number(respuesta), nombre: "text"}
             }).then(function(subopcion){
                 var texto = subopcion.valor;
-                return cb(puntuacion, texto);
+                cb(puntuacion, texto);
             })  
         })
     },

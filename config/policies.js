@@ -67,8 +67,10 @@ module.exports.policies = {
     'load':['sessionAuth', 'isAlumno']
   },
   PreguntaController:{
-    'load':['sessionAuth', 'isAlumno'],
-    'corregir':['sessionAuth', 'isAlumno']
+    'load':['sessionAuth', 'isAlumno']
+  },
+  RespuestaController:{
+    'corregirRespuesta':['sessionAuth', 'isAlumno']
   }
 
 
