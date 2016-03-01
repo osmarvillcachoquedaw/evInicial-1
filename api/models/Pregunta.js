@@ -59,6 +59,11 @@ module.exports = {
         switch (pregunta.tipo) {
           case "Ensayo":
                 console.log("Pregunta tipo: "+pregunta.tipo);
+                Respuesta.create({valor: respuesta, cuestionario: cuestionario, pregunta: pregunta.id, alumno: alumnum.id })
+                		.exec(function createCB(err, created){
+		  				//res.send('Valor: ' + created.valor + ' Cuestionario: ' + created.cuestionario + ' Pregunta: ' + created.pregunta + ' Alumno: ' + created.alumno);
+						cb(created);
+						});
                 break;
           case "Numerica": 
                 console.log("Pregunta tipo: "+pregunta.tipo);
@@ -83,16 +88,16 @@ module.exports = {
                     })
                 break;
           case "Eleccion multiple": 
-                this.corregirEleccionMultiple(respuesta, function (err, valorfraction, valortext){
-                        if(!err){
-                            Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumno.id, cuestionario: cuestionario, pregunta: pregunta.id})
+                this.corregirEleccionMultiple(respuesta, function (valorfraction, valortext){
+                       /* if(!err){*/
+                            Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumnum.id, cuestionario: cuestionario, pregunta: pregunta.id})
                             .exec(function createCB(err, created){
                                 //sails.log.verbose(created);
-                                cb(err,created);
+                            cb(created);
                             })
-                        }else{
+                        /*}else{
                             //cb(err, null);
-                        }
+                        }*/
                     });
                 break;    
         }
@@ -151,15 +156,15 @@ module.exports = {
 			var valorfraction;
             this.comprobarOpcion(respuesta, function(opcion){
                 if(opcion) {
-                    Subopcion.findOne({
+                    SubOpcion.findOne({
                         where: {opcion: Number(opcion.id), nombre: "fraction"}
                     }).then(function(subopcion){
                         valorfraction = subopcion.valor;
-                        Subopcion.findOne({
+                        SubOpcion.findOne({
                             where: {opcion: Number(opcion.id), nombre: "text"}
                         }).then(function(subopcion){
                             valortext = subopcion.valor;
-                            cb(null,valorfraction, valortext);
+                            cb(valorfraction, valortext);
                         })
                     })
                 }
