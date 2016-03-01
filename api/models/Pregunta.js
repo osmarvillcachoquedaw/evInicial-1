@@ -83,13 +83,17 @@ module.exports = {
                     })
                 break;
           case "Eleccion multiple": 
-                /*this.comprobarNyEM(respuesta, function (puntuacion, texto){
-                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                        .exec(function createCB(err, created){
-                            sails.log.verbose(created);
-                            cb(created);
-                        })
-                });*/
+                this.corregirEleccionMultiple(respuesta, function (err, valorfraction, valortext){
+                        if(!err){
+                            Respuesta.create({valor: valortext, puntuacion: valorfraction, alumno: alumno.id, cuestionario: cuestionario, pregunta: pregunta.id})
+                            .exec(function createCB(err, created){
+                                //sails.log.verbose(created);
+                                cb(err,created);
+                            })
+                        }else{
+                            //cb(err, null);
+                        }
+                    });
                 break;    
         }
 	}else{
@@ -139,22 +143,40 @@ module.exports = {
             });
 			cb(valorfraction, valortext);
         });
-	}	
+	},	
     
     //para -->ELECCION MULTIPLE
-    /*comprobarEleccionMultiple: function(respuesta, cb){
-            Subopcion.findOne({
-                where: {opcion: Number(respuesta), nombre: "fraccion"}
-            }).then(function(subopcion){
-                var puntuacion = subopcion.valor;
-                Subopcion.findOne({
-                    where: {opcion: Number(respuesta), nombre: "text"}
-                }).then(function(subopcion){
-                    var texto = subopcion.valor;
-                    cb(puntuacion, texto);
-                })  
+    corregirEleccionMultiple: function(respuesta, cb){
+    		var valortext;
+			var valorfraction;
+            this.comprobarOpcion(respuesta, function(opcion){
+                if(opcion) {
+                    Subopcion.findOne({
+                        where: {opcion: Number(opcion.id), nombre: "fraction"}
+                    }).then(function(subopcion){
+                        valorfraction = subopcion.valor;
+                        Subopcion.findOne({
+                            where: {opcion: Number(opcion.id), nombre: "text"}
+                        }).then(function(subopcion){
+                            valortext = subopcion.valor;
+                            cb(null,valorfraction, valortext);
+                        })
+                    })
+                }
+                else {
+                    cb(new Error('No coincide la opcion con la pregunta'), null,null);
+                }
+            });
+    },
+    comprobarOpcion: function(respuesta, cb) {
+            Opcion.findOne({
+                where: { id: respuesta, pregunta: Number(this.id) }
+            }).then(function(opcion){
+                sails.log.verbose(opcion);
+                cb(opcion);
             })
-    }*/
+            ;
+        }
 
   }
 };
